@@ -1,9 +1,8 @@
 ﻿//! Chapter 11. Performance Monitoring Unit Extension (EID #0x504D55 "PMU")
 
-use crate::binary::{eid_from_str, sbi_call_0, sbi_call_1, sbi_call_3, SbiRet};
-use fid::*;
+use crate::binary::{sbi_call_0, sbi_call_1, sbi_call_3, SbiRet};
 
-pub const EID_PMU: usize = eid_from_str("PMU") as _;
+pub use sbi_spec::pmu::*;
 
 /// §11.5
 #[inline]
@@ -102,14 +101,4 @@ pub fn pmu_counter_stop(
 #[inline]
 pub fn pmu_counter_fw_read(counter_idx: usize) -> SbiRet {
     sbi_call_1(EID_PMU, PMU_COUNTER_FW_READ, counter_idx)
-}
-
-/// §11.11
-mod fid {
-    pub(super) const PMU_NUM_COUNTERS: usize = 0;
-    pub(super) const PMU_COUNTER_GET_INFO: usize = 1;
-    pub(super) const PMU_COUNTER_CONFIG_MATCHING: usize = 2;
-    pub(super) const PMU_COUNTER_START: usize = 3;
-    pub(super) const PMU_COUNTER_STOP: usize = 4;
-    pub(super) const PMU_COUNTER_FW_READ: usize = 5;
 }

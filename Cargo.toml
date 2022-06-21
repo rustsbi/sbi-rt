@@ -2,3 +2,6 @@
 name = "sbi-rt"
 version = "0.1.0"
 edition = "2021"
+
+[dependencies]
+sbi-spec = { git = "https://github.com/rustsbi/sbi-spec.git", rev = "a0fd76b" }

@@ -1,6 +1,6 @@
 ﻿//! Chapter 5. Legacy Extensions (EIDs #0x00 - #0x0F)
 
-pub use id::*;
+pub use sbi_spec::legacy::*;
 
 /// §5.1
 #[deprecated = "replaced by `set_timer` from Timer extension"]
@@ -87,19 +87,6 @@ pub fn shutdown() -> ! {
     core::unreachable!()
 }
 
-/// §5.10
-mod id {
-    pub const LEGACY_SET_TIMER: usize = 0;
-    pub const LEGACY_CONSOLE_PUTCHAR: usize = 1;
-    pub const LEGACY_CONSOLE_GETCHAR: usize = 2;
-    pub const LEGACY_CLEAR_IPI: usize = 3;
-    pub const LEGACY_SEND_IPI: usize = 4;
-    pub const LEGACY_REMOTE_FENCE_I: usize = 5;
-    pub const LEGACY_REMOTE_SFENCE_VMA: usize = 6;
-    pub const LEGACY_REMOTE_SFENCE_VMA_ASID: usize = 7;
-    pub const LEGACY_SHUTDOWN: usize = 8;
-}
-
 #[inline(always)]
 fn sbi_call_legacy_0(eid: usize) -> usize {
     let error;
@@ -122,8 +109,7 @@ fn sbi_call_legacy_1(eid: usize, arg0: usize) -> usize {
             "ecall",
             in("a7") eid,
             in("a6") 0,
-            in("a0") arg0,
-            lateout("a0") error,
+            inlateout("a0") arg0 => error,
         );
     }
     error
@@ -138,9 +124,8 @@ fn sbi_call_legacy_2(eid: usize, arg0: usize, arg1: usize) -> usize {
             "ecall",
             in("a7") eid,
             in("a6") 0,
-            in("a0") arg0,
+            inlateout("a0") arg0 => error,
             in("a1") arg1,
-            lateout("a0") error,
         );
     }
     error
@@ -154,10 +139,9 @@ fn sbi_call_legacy_3(eid: usize, arg0: usize, arg1: usize, arg2: usize) -> usize
             "ecall",
             in("a7") eid,
             in("a6") 0,
-            in("a0") arg0,
+            inlateout("a0") arg0 => error,
             in("a1") arg1,
             in("a2") arg2,
-            lateout("a0") error,
         );
     }
     error
@@ -171,11 +155,10 @@ fn sbi_call_legacy_4(eid: usize, arg0: usize, arg1: usize, arg2: usize, arg3: us
             "ecall",
             in("a7") eid,
             in("a6") 0,
-            in("a0") arg0,
+            inlateout("a0") arg0 => error,
             in("a1") arg1,
             in("a2") arg2,
             in("a3") arg3,
-            lateout("a0") error,
         );
     }
     error

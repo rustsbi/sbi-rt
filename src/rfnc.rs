@@ -1,9 +1,8 @@
 ﻿//! Chapter 8. RFENCE Extension (EID #0x52464E43 "RFNC")
 
-use crate::binary::{eid_from_str, sbi_call_2, sbi_call_4, sbi_call_5, SbiRet};
-use fid::*;
+use crate::binary::{sbi_call_2, sbi_call_4, sbi_call_5, SbiRet};
 
-pub const EID_RFNC: usize = eid_from_str("RFNC") as _;
+pub use sbi_spec::rfnc::*;
 
 /// §8.1
 #[inline]
@@ -123,15 +122,4 @@ pub fn remote_hfence_vvma(
         start_addr,
         size,
     )
-}
-
-/// §8.8
-mod fid {
-    pub(super) const REMOTE_FENCE_I: usize = 0;
-    pub(super) const REMOTE_SFENCE_VMA: usize = 1;
-    pub(super) const REMOTE_SFENCE_VMA_ASID: usize = 2;
-    pub(super) const REMOTE_HFENCE_GVMA_VMID: usize = 3;
-    pub(super) const REMOTE_HFENCE_GVMA: usize = 4;
-    pub(super) const REMOTE_HFENCE_VVMA_ASID: usize = 5;
-    pub(super) const REMOTE_HFENCE_VVMA: usize = 6;
 }
