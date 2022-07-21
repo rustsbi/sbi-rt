@@ -1,4 +1,4 @@
-﻿//! Chapter 4. Base Extension (EID #0x10)
+//! Chapter 4. Base Extension (EID #0x10)
 
 use crate::binary::{sbi_call_0, sbi_call_1};
 
@@ -7,7 +7,7 @@ pub use sbi_spec::base::*;
 /// §4.1
 #[inline]
 pub fn get_spec_version() -> usize {
-    sbi_call_0(EID_BASE, GET_SBI_IMPL_ID).value
+    sbi_call_0(EID_BASE, GET_SPEC_VERSION).value
 }
 
 /// §4.2
