@@ -1,7 +1,18 @@
 [package]
 name = "sbi-rt"
-version = "0.1.0"
+description = "Simple RISC-V SBI runtime"
+version = "0.0.0"
+authors = [
+    "YdrMaster <ydrmaster@hotmail.com>",
+    "Luo Jia <me@luojia.cc>",
+]
+repository = "https://github.com/rustsbi/sbi-rt"
+documentation = "https://docs.rs/sbi-rt"
+license = "MulanPSL-2.0 OR MIT"
+readme = "README.md"
+keywords = ["riscv", "sbi", "rustsbi"]
+categories = ["os", "embedded", "hardware-support", "no-std"]
 edition = "2021"
 
 [dependencies]
-sbi-spec = { git = "https://github.com/rustsbi/sbi-spec.git", rev = "a0fd76b" }
+sbi-spec = "0.0.2"
