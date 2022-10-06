@@ -1,5 +1,9 @@
 ﻿# sbi-rt
 
+[![crates.io](https://img.shields.io/crates/v/sbi-rt.svg)](https://crates.io/crates/sbi-rt)
+[![Documentation](https://docs.rs/sbi-rt/badge.svg)](https://docs.rs/sbi-rt)
+![License](https://img.shields.io/crates/l/sbi-rt.svg)
+
 - [An English README](README_EN.md)
 
 为特权软件提供 RISC-V 特权二进制接口（Supervisor Binary Interface）的运行时库。
