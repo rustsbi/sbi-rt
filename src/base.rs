@@ -6,8 +6,8 @@ pub use sbi_spec::base::*;
 
 /// §4.1
 #[inline]
-pub fn get_spec_version() -> usize {
-    sbi_call_0(EID_BASE, GET_SPEC_VERSION).value
+pub fn get_spec_version() -> SbiSpecVersion {
+    SbiSpecVersion(sbi_call_0(EID_BASE, GET_SBI_SPEC_VERSION).value)
 }
 
 /// §4.2
@@ -24,8 +24,8 @@ pub fn get_sbi_impl_version() -> usize {
 
 /// §4.4
 #[inline]
-pub fn probe_extension(extension_id: usize) -> usize {
-    sbi_call_1(EID_BASE, PROBE_EXTENSION, extension_id).value
+pub fn probe_extension(extension_id: usize) -> bool {
+    sbi_call_1(EID_BASE, PROBE_EXTENSION, extension_id).value != UNAVAILABLE_EXTENSION
 }
 
 /// §4.5
