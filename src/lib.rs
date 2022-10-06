@@ -1,4 +1,5 @@
-﻿#![no_std]
+﻿//! Simple RISC-V SBI runtime primitives
+#![no_std]
 
 // §3
 mod binary;

@@ -1,6 +1,6 @@
 [package]
 name = "sbi-rt"
-description = "Simple RISC-V SBI runtime"
+description = "Simple RISC-V SBI runtime primitives"
 version = "0.0.0"
 authors = [
     "YdrMaster <ydrmaster@hotmail.com>",
