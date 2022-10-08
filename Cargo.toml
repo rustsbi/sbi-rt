@@ -21,7 +21,7 @@ targets = [
 ]
 
 [dependencies]
-sbi-spec = { path = "../sbi-spec" }
+sbi-spec = "0.0.3"
 
 [features]
 default = []
