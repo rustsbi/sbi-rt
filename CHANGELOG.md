@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 - Feature `legacy` to gate SBI legacy extension
+- Documents on various functions
 
 ### Modified
 
