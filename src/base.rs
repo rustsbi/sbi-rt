@@ -2,7 +2,10 @@
 
 use crate::binary::{sbi_call_0, sbi_call_1};
 
-pub use sbi_spec::base::*;
+use sbi_spec::base::{
+    SbiSpecVersion, EID_BASE, GET_MARCHID, GET_MIMPID, GET_MVENDORID, GET_SBI_IMPL_ID,
+    GET_SBI_IMPL_VERSION, GET_SBI_SPEC_VERSION, PROBE_EXTENSION,
+};
 
 /// §4.1
 #[inline]
@@ -32,8 +35,11 @@ pub fn get_sbi_impl_version() -> usize {
 /// According to introduction of chapter 4, all base extension functions
 /// must success and return no error code.
 #[inline]
-pub fn probe_extension(extension_id: usize) -> usize {
-    sbi_call_1(EID_BASE, PROBE_EXTENSION, extension_id).value
+pub fn probe_extension<E>(extension: E) -> usize
+where
+    E: Extension,
+{
+    sbi_call_1(EID_BASE, PROBE_EXTENSION, extension.extension_id()).value
 }
 
 /// §4.5
@@ -52,4 +58,50 @@ pub fn get_marchid() -> usize {
 #[inline]
 pub fn get_mimpid() -> usize {
     sbi_call_0(EID_BASE, GET_MIMPID).value
+}
+
+/// An SBI extension
+pub trait Extension {
+    /// Get a raw `extension_id` value to pass to SBI environment
+    fn extension_id(&self) -> usize;
+}
+
+macro_rules! define_extension {
+    ($($struct:ident($value:expr) #[$doc:meta])*) => {
+        $(
+            #[derive(Clone, Copy, Debug)]
+            #[$doc]
+            pub struct $struct;
+            impl Extension for $struct {
+                #[inline]
+                fn extension_id(&self) -> usize {
+                    $value
+                }
+            }
+        )*
+    };
+}
+
+define_extension! {
+    Base(sbi_spec::base::EID_BASE) /// Base extension
+    Timer(sbi_spec::time::EID_TIME) /// Timer extension
+    Ipi(sbi_spec::spi::EID_SPI) /// Inter-processor Interrupt extension
+    Fence(sbi_spec::rfnc::EID_RFNC) /// Remote Fence extension
+    Hsm(sbi_spec::hsm::EID_HSM) /// Hart State Monitor extension
+    Reset(sbi_spec::srst::EID_SRST) /// System Reset extension
+    Pmu(sbi_spec::pmu::EID_PMU) /// Performance Monitoring Unit extension
+}
+
+impl Extension for usize {
+    #[inline]
+    fn extension_id(&self) -> usize {
+        *self
+    }
+}
+
+impl Extension for isize {
+    #[inline]
+    fn extension_id(&self) -> usize {
+        usize::from_ne_bytes(isize::to_ne_bytes(*self))
+    }
 }

@@ -42,6 +42,7 @@ where
 
 /// A valid type for system reset.
 pub trait ResetType {
+    /// Get a raw value to pass to SBI environment
     fn raw(&self) -> u32;
 }
 
@@ -61,6 +62,7 @@ impl ResetType for i32 {
 
 /// A valid reason for system reset.
 pub trait ResetReason {
+    /// Get a raw value to pass to SBI environment
     fn raw(&self) -> u32;
 }
 
@@ -85,6 +87,7 @@ macro_rules! define_reset_param {
             #[$doc]
             pub struct $struct;
             impl $trait for $struct {
+                #[inline]
                 fn raw(&self) -> u32 {
                     $value
                 }
