@@ -15,7 +15,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Modified
 
-- Function `probe_extension` now returns a `usize` value
+- Function `probe_extension` now returns a `ExtensionInfo` value
 
 ### Fixed
 

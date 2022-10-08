@@ -114,6 +114,12 @@ pub struct ExtensionInfo {
 }
 
 impl ExtensionInfo {
+    /// Is this extension available?
+    #[inline]
+    pub const fn is_available(&self) -> bool {
+        self.raw != 0
+    }
+
     /// Is this extension not available?
     #[inline]
     pub const fn is_unavailable(&self) -> bool {
