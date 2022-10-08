@@ -1,10 +1,18 @@
-﻿//! Chapter 6. Timer Extension (EID #0x54494D45 "TIME")
+//! Chapter 6. Timer Extension (EID #0x54494D45 "TIME")
 
 use crate::SbiRet;
 
-pub use sbi_spec::time::*;
+use sbi_spec::time::{EID_TIME, SET_TIMER};
 
-/// §6.1
+/// Programs the clock for next event after an absolute time.
+///
+/// Parameter `stime_value` is in absolute time. This function must clear the pending timer interrupt bit as well.
+///
+/// If the supervisor wishes to clear the timer interrupt without scheduling the next timer event,
+/// it can either request a timer interrupt infinitely far into the future (i.e., (uint64_t)-1),
+/// or it can instead mask the timer interrupt by clearing `sie.STIE` CSR bit.
+///
+/// This function is defined in RISC-V SBI Specification chapter 6.1.
 #[inline]
 pub fn set_timer(stime_value: u64) -> SbiRet {
     match () {

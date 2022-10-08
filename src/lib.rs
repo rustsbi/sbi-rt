@@ -1,6 +1,6 @@
-﻿//! Simple RISC-V SBI runtime primitives
+//! Simple RISC-V SBI runtime primitives
 #![no_std]
-
+#[cfg_attr(not(feature = "legacy"), deny(missing_docs))]
 // §3
 mod binary;
 // §4
