@@ -25,7 +25,7 @@ pub fn get_sbi_impl_version() -> usize {
     sbi_call_0(EID_BASE, GET_SBI_IMPL_VERSION).value
 }
 
-/// Probes information abort one SBI extension from current environment.
+/// Probes information about one SBI extension from current environment.
 ///
 /// Returns 0 if given SBI `extension_id` is not available, or typically
 /// 1 if it's available. Implementation would define further non-zero
