@@ -22,3 +22,8 @@ targets = [
 
 [dependencies]
 sbi-spec = "0.0.3"
+
+[features]
+default = []
+# Support legacy extension; this feature is not included by default.
+legacy = []

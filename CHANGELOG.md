@@ -9,6 +9,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Feature `legacy` to gate SBI legacy extension
+
 ### Modified
 
 - Function `probe_extension` now returns a `usize` value

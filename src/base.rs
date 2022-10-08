@@ -23,11 +23,11 @@ pub fn get_sbi_impl_version() -> usize {
 }
 
 /// Probes information abort one SBI extension from current environment.
-/// 
+///
 /// Returns 0 if given SBI `extension_id` is not available, or typically
 /// 1 if it's available. Implementation would define further non-zero
 /// return values for information about this extension if it is available.
-/// 
+///
 /// This function is defined in RISC-V SBI Specification chapter 4.4.
 /// According to introduction of chapter 4, all base extension functions
 /// must success and return no error code.
