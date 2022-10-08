@@ -40,7 +40,7 @@ where
     )
 }
 
-/// A valid type for system reset.
+/// A valid type for system reset
 pub trait ResetType {
     /// Get a raw value to pass to SBI environment
     fn raw(&self) -> u32;
@@ -62,7 +62,7 @@ impl ResetType for i32 {
     }
 }
 
-/// A valid reason for system reset.
+/// A valid reason for system reset
 pub trait ResetReason {
     /// Get a raw value to pass to SBI environment
     fn raw(&self) -> u32;

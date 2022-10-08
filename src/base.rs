@@ -127,8 +127,8 @@ macro_rules! define_extension {
 }
 
 define_extension! {
-    Base(sbi_spec::base::EID_BASE) /// Base extension
-    Timer(sbi_spec::time::EID_TIME) /// Timer extension
+    Base(sbi_spec::base::EID_BASE) /// RISC-V SBI Base extension
+    Timer(sbi_spec::time::EID_TIME) /// Timer programmer extension
     Ipi(sbi_spec::spi::EID_SPI) /// Inter-processor Interrupt extension
     Fence(sbi_spec::rfnc::EID_RFNC) /// Remote Fence extension
     Hsm(sbi_spec::hsm::EID_HSM) /// Hart State Monitor extension
