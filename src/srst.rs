@@ -46,6 +46,7 @@ pub trait ResetType {
     fn raw(&self) -> u32;
 }
 
+#[cfg(feature = "integer-impls")]
 impl ResetType for u32 {
     #[inline]
     fn raw(&self) -> u32 {
@@ -53,6 +54,7 @@ impl ResetType for u32 {
     }
 }
 
+#[cfg(feature = "integer-impls")]
 impl ResetType for i32 {
     #[inline]
     fn raw(&self) -> u32 {
@@ -66,6 +68,7 @@ pub trait ResetReason {
     fn raw(&self) -> u32;
 }
 
+#[cfg(feature = "integer-impls")]
 impl ResetReason for u32 {
     #[inline]
     fn raw(&self) -> u32 {
@@ -73,6 +76,7 @@ impl ResetReason for u32 {
     }
 }
 
+#[cfg(feature = "integer-impls")]
 impl ResetReason for i32 {
     #[inline]
     fn raw(&self) -> u32 {

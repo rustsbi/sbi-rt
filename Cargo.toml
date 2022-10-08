@@ -25,5 +25,11 @@ sbi-spec = "0.0.3"
 
 [features]
 default = []
+# Implement sbi-rt traits for integer types
+# By using this feature, parameter types of sbi-rt functions fall back to integers,
+# static type checks are disabled so this library won't detect parameters in incorrect orders.
+# Although some people may find it userul in prototyping sbi-rt implementations,
+# users of this crate are strongly encouraged not to enable this feature in production.
+integer-impls = []
 # Support legacy extension; this feature is not included by default.
 legacy = []

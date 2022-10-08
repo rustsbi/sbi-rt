@@ -267,6 +267,7 @@ pub trait ConfigFlags {
     fn raw(&self) -> usize;
 }
 
+#[cfg(feature = "integer-impls")]
 impl ConfigFlags for usize {
     #[inline]
     fn raw(&self) -> usize {
@@ -280,6 +281,7 @@ pub trait StartFlags {
     fn raw(&self) -> usize;
 }
 
+#[cfg(feature = "integer-impls")]
 impl StartFlags for usize {
     #[inline]
     fn raw(&self) -> usize {
@@ -293,6 +295,7 @@ pub trait StopFlags {
     fn raw(&self) -> usize;
 }
 
+#[cfg(feature = "integer-impls")]
 impl StopFlags for usize {
     #[inline]
     fn raw(&self) -> usize {

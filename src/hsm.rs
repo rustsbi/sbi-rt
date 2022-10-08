@@ -191,6 +191,7 @@ pub trait SuspendType {
     fn raw(&self) -> u32;
 }
 
+#[cfg(feature = "integer-impls")]
 impl SuspendType for u32 {
     #[inline]
     fn raw(&self) -> u32 {

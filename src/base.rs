@@ -136,6 +136,7 @@ define_extension! {
     Pmu(sbi_spec::pmu::EID_PMU) /// Performance Monitoring Unit extension
 }
 
+#[cfg(feature = "integer-impls")]
 impl Extension for usize {
     #[inline]
     fn extension_id(&self) -> usize {
@@ -143,6 +144,7 @@ impl Extension for usize {
     }
 }
 
+#[cfg(feature = "integer-impls")]
 impl Extension for isize {
     #[inline]
     fn extension_id(&self) -> usize {
