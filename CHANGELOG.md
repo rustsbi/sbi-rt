@@ -9,6 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Trait based type parameter for system reset extension
 - Feature `legacy` to gate SBI legacy extension
 - Documents on various functions
 

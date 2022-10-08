@@ -1,13 +1,16 @@
-﻿//! Chapter 10. System Reset Extension (EID #0x53525354 "SRST")
+//! Chapter 10. System Reset Extension (EID #0x53525354 "SRST")
 
 use crate::binary::{sbi_call_2, SbiRet};
 
-pub use sbi_spec::srst::*;
+use sbi_spec::srst::{
+    EID_SRST, RESET_REASON_NO_REASON, RESET_REASON_SYSTEM_FAILURE, RESET_TYPE_COLD_REBOOT,
+    RESET_TYPE_SHUTDOWN, RESET_TYPE_WARM_REBOOT, SYSTEM_RESET,
+};
 
 /// Reset the system based on provided `reset_type` and `reset_reason`.
-/// 
+///
 /// This is a synchronous call and does not return if it succeeds.
-/// 
+///
 /// # Warm reboot and cold reboot
 ///
 /// When supervisor software is running natively, the SBI implementation is machine mode firmware.
@@ -21,9 +24,79 @@ pub use sbi_spec::srst::*;
 /// When supervisor software is running inside a virtual machine, the SBI implementation is a hypervisor.
 /// The shutdown, cold reboot and warm reboot will behave functionally the same as the native case but might
 /// not result in any physical power changes.
-/// 
+///
 /// This function is defined in RISC-V SBI Specification chapter 10.1.
 #[inline]
-pub fn system_reset(reset_type: u32, reset_reason: u32) -> SbiRet {
-    sbi_call_2(EID_SRST, SYSTEM_RESET, reset_type as _, reset_reason as _)
+pub fn system_reset<T, R>(reset_type: T, reset_reason: R) -> SbiRet
+where
+    T: ResetType,
+    R: ResetReason,
+{
+    sbi_call_2(
+        EID_SRST,
+        SYSTEM_RESET,
+        reset_type.raw() as _,
+        reset_reason.raw() as _,
+    )
+}
+
+/// A valid type for system reset.
+pub trait ResetType {
+    fn raw(&self) -> u32;
+}
+
+impl ResetType for u32 {
+    #[inline]
+    fn raw(&self) -> u32 {
+        *self
+    }
+}
+
+impl ResetType for i32 {
+    #[inline]
+    fn raw(&self) -> u32 {
+        u32::from_ne_bytes(i32::to_ne_bytes(*self))
+    }
+}
+
+/// A valid reason for system reset.
+pub trait ResetReason {
+    fn raw(&self) -> u32;
+}
+
+impl ResetReason for u32 {
+    #[inline]
+    fn raw(&self) -> u32 {
+        *self
+    }
+}
+
+impl ResetReason for i32 {
+    #[inline]
+    fn raw(&self) -> u32 {
+        u32::from_ne_bytes(i32::to_ne_bytes(*self))
+    }
+}
+
+macro_rules! define_reset_param {
+    ($($struct:ident($value:expr): $trait:ident #[$doc:meta])*) => {
+        $(
+            #[derive(Clone, Copy, Debug)]
+            #[$doc]
+            pub struct $struct;
+            impl $trait for $struct {
+                fn raw(&self) -> u32 {
+                    $value
+                }
+            }
+        )*
+    };
+}
+
+define_reset_param! {
+    Shutdown(RESET_TYPE_SHUTDOWN): ResetType /// Shutdown as reset type
+    ColdReboot(RESET_TYPE_COLD_REBOOT): ResetType /// Cold reboot as reset type
+    WarmReboot(RESET_TYPE_WARM_REBOOT): ResetType /// Warm reboot as reset type
+    NoReason(RESET_REASON_NO_REASON): ResetReason /// No reason as reset reason
+    SystemFailure(RESET_REASON_SYSTEM_FAILURE): ResetReason /// System failure as reset reason
 }
