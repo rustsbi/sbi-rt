@@ -16,7 +16,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Modified
 
-- Update `sbi-spec` to version 0.0.4
+- Update `sbi-spec` to version 0.0.4, re-export `Version` structure
 - Function `probe_extension` now returns an `ExtensionInfo` value
 - Function `pmu_num_counters` returns a `usize` value
 
