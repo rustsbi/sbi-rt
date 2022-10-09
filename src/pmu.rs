@@ -42,7 +42,7 @@ pub fn pmu_num_counters() -> usize {
 ///
 /// | Return code               | Description
 /// |:--------------------------|:----------------------------------------------
-/// | `SbiRet::ok()`            | `counter_info` read successfully.
+/// | `SbiRet::success()`       | `counter_info` read successfully.
 /// | `SbiRet::invalid_param()` | `counter_idx` points to an invalid counter.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 11.6.
@@ -96,7 +96,7 @@ pub fn pmu_counter_get_info(counter_idx: usize) -> SbiRet {
 ///
 /// | Return code               | Description
 /// |:--------------------------|:----------------------------------------------
-/// | `SbiRet::ok()`            | counter found and configured successfully.
+/// | `SbiRet::success()`       | counter found and configured successfully.
 /// | `SbiRet::invalid_param()` | set of counters has an invalid counter.
 /// | `SbiRet::not_supported()` | none of the counters can monitor specified event.
 ///
@@ -160,7 +160,7 @@ where
 ///
 /// | Return code                 | Description
 /// |:----------------------------|:----------------------------------------------
-/// | `SbiRet::ok()`              | counter started successfully.
+/// | `SbiRet::success()`         | counter started successfully.
 /// | `SbiRet::invalid_param()`   | some of the counters specified in parameters are invalid.
 /// | `SbiRet::already_started()` | some of the counters specified in parameters are already started.
 ///
@@ -216,7 +216,7 @@ where
 ///
 /// | Return code                 | Description
 /// |:----------------------------|:----------------------------------------------
-/// | `SbiRet::ok()`              | counter stopped successfully.
+/// | `SbiRet::success()`         | counter stopped successfully.
 /// | `SbiRet::invalid_param()`   | some of the counters specified in parameters are invalid.
 /// | `SbiRet::already_stopped()` | some of the counters specified in parameters are already stopped.
 ///
@@ -252,7 +252,7 @@ where
 ///
 /// | Return code               | Description
 /// |:--------------------------|:----------------------------------------------
-/// | `SbiRet::ok()`            | firmware counter read successfully.
+/// | `SbiRet::success()`       | firmware counter read successfully.
 /// | `SbiRet::invalid_param()` | `counter_idx` points to a hardware counter or an invalid counter.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 11.10.

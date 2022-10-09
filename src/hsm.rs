@@ -164,7 +164,7 @@ pub fn hart_get_status(hartid: usize) -> SbiRet {
 ///
 /// | Error code                  | Description
 /// |:----------------------------|:------------
-/// | `SbiRet::ok()`              | Hart has suspended and resumed back successfully from a retentive suspend state.
+/// | `SbiRet::success()`         | Hart has suspended and resumed back successfully from a retentive suspend state.
 /// | `SbiRet::invalid_param()`   | `suspend_type` is not valid.
 /// | `SbiRet::not_supported()`   | `suspend_type` is valid but not implemented.
 /// | `SbiRet::invalid_address()` | `resume_addr` is not valid possibly due to following reasons: it is not a valid physical address, or the address is prohibited by PMP to run in supervisor mode.

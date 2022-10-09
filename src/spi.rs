@@ -10,7 +10,7 @@ use sbi_spec::spi::{EID_SPI, SEND_IPI};
 ///
 /// # Return value
 ///
-/// Should return `SbiRet::ok()` if IPI was sent to all the targeted harts successfully.
+/// Should return `SbiRet::success()` if IPI was sent to all the targeted harts successfully.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 7.1.
 #[inline]
