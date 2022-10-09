@@ -21,7 +21,7 @@ targets = [
 ]
 
 [dependencies]
-sbi-spec = "0.0.3"
+sbi-spec = "0.0.4"
 
 [features]
 default = []
@@ -32,4 +32,4 @@ default = []
 # users of this crate are strongly encouraged not to enable this feature in production.
 integer-impls = []
 # Support legacy extension; this feature is not included by default.
-legacy = []
+legacy = ["sbi-spec/legacy"]

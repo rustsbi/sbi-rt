@@ -3,7 +3,7 @@
 use crate::binary::{sbi_call_0, sbi_call_1};
 
 use sbi_spec::base::{
-    SbiSpecVersion, EID_BASE, GET_MARCHID, GET_MIMPID, GET_MVENDORID, GET_SBI_IMPL_ID,
+    Version, EID_BASE, GET_MARCHID, GET_MIMPID, GET_MVENDORID, GET_SBI_IMPL_ID,
     GET_SBI_IMPL_VERSION, GET_SBI_SPEC_VERSION, PROBE_EXTENSION,
 };
 
@@ -17,8 +17,8 @@ use sbi_spec::base::{
 /// According to introduction of chapter 4, all base extension functions
 /// must success and return no error code.
 #[inline]
-pub fn get_spec_version() -> SbiSpecVersion {
-    SbiSpecVersion(sbi_call_0(EID_BASE, GET_SBI_SPEC_VERSION).value)
+pub fn get_spec_version() -> Version {
+    Version::from_raw(sbi_call_0(EID_BASE, GET_SBI_SPEC_VERSION).value)
 }
 
 /// Return the current SBI implementation ID.
