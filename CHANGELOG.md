@@ -7,6 +7,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## Modified
+
+- Minor document fixes on `ConfigFlags` and `set_timer`
+
 ## [0.0.2] - 2022-10-10
 
 In this version we changed API style to trait based type parameters, which would make it easier to

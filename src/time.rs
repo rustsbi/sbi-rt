@@ -9,7 +9,7 @@ use sbi_spec::time::{EID_TIME, SET_TIMER};
 /// Parameter `stime_value` is in absolute time. This function must clear the pending timer interrupt bit as well.
 ///
 /// If the supervisor wishes to clear the timer interrupt without scheduling the next timer event,
-/// it can either request a timer interrupt infinitely far into the future (i.e., (uint64_t)-1),
+/// it can either request a timer interrupt infinitely far into the future (i.e., `u64::MAX`),
 /// or it can instead mask the timer interrupt by clearing `sie.STIE` CSR bit.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 6.1.
