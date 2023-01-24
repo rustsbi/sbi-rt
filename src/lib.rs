@@ -20,12 +20,20 @@ mod hsm;
 mod srst;
 // §11
 mod pmu;
+// ?
+mod dbcn;
+
+// virtual memory system
+mod vm;
 
 pub use base::*;
 pub use binary::*;
+pub use dbcn::*;
 pub use hsm::*;
 pub use pmu::*;
 pub use rfnc::*;
 pub use spi::*;
 pub use srst::*;
 pub use time::*;
+
+pub use vm::*;
