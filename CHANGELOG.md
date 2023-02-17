@@ -11,6 +11,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Support RISC-V SBI Specification version 2.0-rc1
 - Debug Console extension support
+- `pmu_counter_fw_read_hi` in PMU extension
 
 ## Modified
 

@@ -3,8 +3,8 @@
 use crate::binary::{sbi_call_0, sbi_call_1, sbi_call_3, SbiRet};
 
 use sbi_spec::pmu::{
-    EID_PMU, PMU_COUNTER_CONFIG_MATCHING, PMU_COUNTER_FW_READ, PMU_COUNTER_GET_INFO,
-    PMU_COUNTER_START, PMU_COUNTER_STOP, PMU_NUM_COUNTERS,
+    EID_PMU, PMU_COUNTER_CONFIG_MATCHING, PMU_COUNTER_FW_READ, PMU_COUNTER_FW_READ_HI,
+    PMU_COUNTER_GET_INFO, PMU_COUNTER_START, PMU_COUNTER_STOP, PMU_NUM_COUNTERS,
 };
 
 /// Returns the number of counters, both hardware and firmware.
@@ -241,6 +241,9 @@ where
 
 /// Provide the current value of a firmware counter.
 ///
+/// On RV32 systems, the `SbiRet.value` will only contain the lower 32 bits of the current
+/// firmware counter value.
+///
 /// # Parameters
 ///
 /// This function should be only used to read a firmware counter. It will return an error
@@ -259,6 +262,25 @@ where
 #[inline]
 pub fn pmu_counter_fw_read(counter_idx: usize) -> SbiRet {
     sbi_call_1(EID_PMU, PMU_COUNTER_FW_READ, counter_idx)
+}
+
+/// Provide the upper 32 bits of the current firmware counter value.
+///
+/// This function always returns zero in `SbiRet.value` for RV64 (or higher) systems.
+///
+/// # Return value
+///
+/// The possible return error codes returned in `SbiRet.error` are shown in the table below:
+///
+/// | Return code               | Description
+/// |:--------------------------|:----------------------------------------------
+/// | `SbiRet::success()`       | firmware counter read successfully.
+/// | `SbiRet::invalid_param()` | `counter_idx` points to a hardware counter or an invalid counter.
+///
+/// This function is defined in RISC-V SBI Specification chapter 11.11.
+#[inline]
+pub fn pmu_counter_fw_read_hi(counter_idx: usize) -> SbiRet {
+    sbi_call_1(EID_PMU, PMU_COUNTER_FW_READ_HI, counter_idx)
 }
 
 /// Flags to configure performance counter

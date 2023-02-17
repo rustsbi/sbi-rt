@@ -4,7 +4,7 @@ use crate::binary::{sbi_call_0, sbi_call_1, sbi_call_3, SbiRet};
 
 use sbi_spec::hsm::{EID_HSM, HART_GET_STATUS, HART_START, HART_STOP, HART_SUSPEND};
 
-/// Request the SBI implementation to start executing the given hart at specified address in supervisor-mode.
+/// Start executing the given hart at specified address in supervisor-mode.
 ///
 /// This call is asynchronous - more specifically, the `hart_start()` may return before target hart
 /// starts executing as long as the SBI implemenation is capable of ensuring the return code is accurate.
@@ -106,8 +106,10 @@ pub fn hart_get_status(hartid: usize) -> SbiRet {
     sbi_call_1(EID_HSM, HART_GET_STATUS, hartid)
 }
 
-/// Request the SBI implementation to put the calling hart in a platform specfic suspend (or low power) state
-/// specified by the `suspend_type` parameter.
+/// Put the calling hart into suspend or platform specific lower power states.
+///
+/// This function requests the SBI implementation to put the calling hart in a platform specfic suspend
+/// (or low power) state specified by the `suspend_type` parameter.
 ///
 /// The hart will automatically come out of suspended state and resume normal execution
 /// when it recieves an interrupt or platform specific hardware event.
