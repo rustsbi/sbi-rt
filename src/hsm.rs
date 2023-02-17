@@ -4,11 +4,9 @@ use crate::binary::{sbi_call_0, sbi_call_1, sbi_call_3, SbiRet};
 
 use sbi_spec::hsm::{EID_HSM, HART_GET_STATUS, HART_START, HART_STOP, HART_SUSPEND};
 
-/// Start executing the given hart at specified address in supervisor-mode.
+/// Request the SBI implementation to start executing the given hart at specified address in supervisor-mode.
 ///
-/// This function requests the SBI implementation to start executing the given hart at specified address in supervisor-mode.
-///
-/// This call is asynchronous - more specifically, the `sbi_hart_start()` may return before target hart
+/// This call is asynchronous - more specifically, the `hart_start()` may return before target hart
 /// starts executing as long as the SBI implemenation is capable of ensuring the return code is accurate.
 ///
 /// It is recommended that if the SBI implementation is a platform runtime firmware executing in machine-mode (M-mode)
@@ -19,6 +17,10 @@ use sbi_spec::hsm::{EID_HSM, HART_GET_STATUS, HART_START, HART_STOP, HART_SUSPEN
 /// - The `hartid` parameter specifies the target hart which is to be started.
 /// - The `start_addr` parameter points to a runtime-specified physical address, where the hart can start executing in supervisor-mode.
 /// - The `opaque` parameter is a `usize` value which will be set in the `a1` register when the hart starts executing at `start_addr`.
+///
+/// *NOTE:* A single `usize` parameter is sufficient as `start_addr`,
+/// because the hart will start execution in the supervisor-mode with MMU off,
+/// hence the `start_addr` must be less than XLEN bits wide.
 ///
 /// # Behavior
 ///
@@ -35,13 +37,13 @@ use sbi_spec::hsm::{EID_HSM, HART_GET_STATUS, HART_START, HART_STOP, HART_SUSPEN
 ///
 /// The possible return error codes returned in `SbiRet.error` are shown in the table below:
 ///
-/// | Return code               | Description
-/// |:--------------------------|:----------------------------------------------
-/// | SBI_SUCCESS               | Hart was previously in stopped state. It will start executing from `start_addr`.
-/// | SBI_ERR_INVALID_ADDRESS   | `start_addr` is not valid possibly due to following reasons: 1. It is not a valid physical address. 2. The address is prohibited by PMP to run in supervisor mode.
-/// | SBI_ERR_INVALID_PARAM     | `hartid` is not a valid hartid as corresponding hart cannot started in supervisor mode.
-/// | SBI_ERR_ALREADY_AVAILABLE | The given hartid is already started.
-/// | SBI_ERR_FAILED            | The start request failed for unknown reasons.
+/// | Return code                   | Description
+/// |:------------------------------|:----------------------------------------------
+/// | `SbiRet::success()`           | Hart was previously in stopped state. It will start executing from `start_addr`.
+/// | `SbiRet::invalid_address()`   | `start_addr` is not valid, possibly due to the following reasons: it is not a valid physical address, or the address is prohibited by PMP or H-extension G-stage to run in supervisor-mode.
+/// | `SbiRet::invalid_param()`     | `hartid` is not a valid hartid as corresponding hart cannot started in supervisor mode.
+/// | `SbiRet::already_available()` | The given hartid is already started.
+/// | `SbiRet::failed()`            | The start request failed for unknown reasons.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 9.1.
 #[inline]
@@ -73,8 +75,8 @@ pub fn hart_stop() -> SbiRet {
 
 /// Get the current status (or HSM state id) of the given hart.
 ///
-/// The harts may transition HSM states at any time due to any concurrent `sbi_hart_start()`
-/// or `sbi_hart_stop()` calls, the return value from this function may not represent the actual state
+/// The harts may transition HSM states at any time due to any concurrent `hart_start()`
+/// or `hart_stop()` calls, the return value from this function may not represent the actual state
 /// of the hart at the time of return value verification.
 ///
 /// # Parameters
@@ -94,9 +96,9 @@ pub fn hart_stop() -> SbiRet {
 ///
 /// The possible return error codes returned in `SbiRet.error` are shown in the table below:
 ///
-/// | Error code  | Description
-/// |:------------|:------------
-/// | `SbiRet::invalid_parameter()` | The given `hartid` is not valid
+/// | Error code                | Description
+/// |:--------------------------|:------------
+/// | `SbiRet::invalid_param()` | The given `hartid` is not valid
 ///
 /// This function is defined in RISC-V SBI Specification chapter 9.3.
 #[inline]
@@ -104,10 +106,8 @@ pub fn hart_get_status(hartid: usize) -> SbiRet {
     sbi_call_1(EID_HSM, HART_GET_STATUS, hartid)
 }
 
-/// Put the calling hart into suspend or platform specific lower power states.
-///
-/// This function requests the SBI implementation to put the calling hart in a platform specfic suspend
-/// (or low power) state specified by the `suspend_type` parameter.
+/// Request the SBI implementation to put the calling hart in a platform specfic suspend (or low power) state
+/// specified by the `suspend_type` parameter.
 ///
 /// The hart will automatically come out of suspended state and resume normal execution
 /// when it recieves an interrupt or platform specific hardware event.
@@ -154,7 +154,11 @@ pub fn hart_get_status(hartid: usize) -> SbiRet {
 /// where the hart can resume execution in supervisor-mode after a non-retentive
 /// suspend.
 ///
-/// The `opaque` parameter is a XLEN-bit value which will be set in the `a1`
+/// *NOTE:* A single `usize` parameter is sufficient as `resume_addr`,
+/// because the hart will resume execution in the supervisor-mode with MMU off,
+/// hence the `resume_addr` must be less than XLEN bits wide.
+///
+/// The `opaque` parameter is an XLEN-bit value which will be set in the `a1`
 /// register when the hart resumes exectution at `resume_addr` after a
 /// non-retentive suspend.
 ///
@@ -167,7 +171,7 @@ pub fn hart_get_status(hartid: usize) -> SbiRet {
 /// | `SbiRet::success()`         | Hart has suspended and resumed back successfully from a retentive suspend state.
 /// | `SbiRet::invalid_param()`   | `suspend_type` is not valid.
 /// | `SbiRet::not_supported()`   | `suspend_type` is valid but not implemented.
-/// | `SbiRet::invalid_address()` | `resume_addr` is not valid possibly due to following reasons: it is not a valid physical address, or the address is prohibited by PMP to run in supervisor mode.
+/// | `SbiRet::invalid_address()` | `resume_addr` is not valid, possibly due to the following reasons: it is not a valid physical address, or the address is prohibited by PMP or H-extension G-stage to run in supervisor-mode.
 /// | `SbiRet::failed()`          | The suspend request failed for unknown reasons.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 9.4.

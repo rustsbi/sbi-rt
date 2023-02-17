@@ -20,9 +20,12 @@ mod hsm;
 mod srst;
 // §11
 mod pmu;
+// §12
+mod dbcn;
 
 pub use base::*;
 pub use binary::*;
+pub use dbcn::*;
 pub use hsm::*;
 pub use pmu::*;
 pub use rfnc::*;

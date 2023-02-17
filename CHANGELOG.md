@@ -7,9 +7,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## Added
+
+- Support RISC-V SBI Specification version 2.0-rc1
+- Debug Console extension support
+
 ## Modified
 
 - Minor document fixes on `ConfigFlags` and `set_timer`
+- Document fixes on HSM extension from SBI 2.0-rc1
 
 ## [0.0.2] - 2022-10-10
 

@@ -21,7 +21,7 @@ targets = [
 ]
 
 [dependencies]
-sbi-spec = "0.0.4"
+sbi-spec = "0.0.5-rc.2"
 
 [features]
 default = []

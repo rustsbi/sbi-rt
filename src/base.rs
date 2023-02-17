@@ -135,6 +135,7 @@ define_extension! {
     Hsm(sbi_spec::hsm::EID_HSM) /// Hart State Monitor extension
     Reset(sbi_spec::srst::EID_SRST) /// System Reset extension
     Pmu(sbi_spec::pmu::EID_PMU) /// Performance Monitoring Unit extension
+    Console(sbi_spec::dbcn::EID_DBCN) /// Debug Console extension
 }
 
 #[cfg(feature = "integer-impls")]
