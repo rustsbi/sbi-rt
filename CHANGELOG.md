@@ -7,13 +7,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## Added
+## [0.0.3]
+
+### Added
 
 - Support RISC-V SBI Specification version 2.0-rc1
 - Debug Console extension support
 - `pmu_counter_fw_read_hi` in PMU extension
 
-## Modified
+### Fixed
 
 - Minor document fixes on `ConfigFlags` and `set_timer`
 - Document fixes on HSM extension from SBI 2.0-rc1
@@ -37,6 +39,7 @@ it would fall back to older style functions using integer types.
 - Function `probe_extension` now returns an `ExtensionInfo` value
 - Function `pmu_num_counters` returns a `usize` value
 
-[Unreleased]: https://github.com/rustsbi/sbi-rt/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/rustsbi/sbi-rt/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/rustsbi/sbi-rt/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/rustsbi/sbi-rt/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/rustsbi/sbi-rt/releases/tag/v0.0.1
