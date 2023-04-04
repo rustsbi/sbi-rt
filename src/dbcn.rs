@@ -1,6 +1,9 @@
 //! Chapter 12. Debug Console Extension (EID #0x4442434E "DBCN")
 use crate::binary::{sbi_call_1, sbi_call_3, SbiRet};
-use sbi_spec::dbcn::{CONSOLE_READ, CONSOLE_WRITE, CONSOLE_WRITE_BYTE, EID_DBCN};
+use sbi_spec::{
+    binary::Physical,
+    dbcn::{CONSOLE_READ, CONSOLE_WRITE, CONSOLE_WRITE_BYTE, EID_DBCN},
+};
 
 /// Write bytes to the debug console from input memory.
 ///
@@ -28,13 +31,13 @@ use sbi_spec::dbcn::{CONSOLE_READ, CONSOLE_WRITE, CONSOLE_WRITE_BYTE, EID_DBCN};
 ///
 /// This function is defined in RISC-V SBI Specification chapter 12.1.
 #[inline]
-pub unsafe fn console_write(num_bytes: usize, base_addr_lo: usize, base_addr_hi: usize) -> SbiRet {
+pub fn console_write(bytes: Physical<&[u8]>) -> SbiRet {
     sbi_call_3(
         EID_DBCN,
         CONSOLE_WRITE,
-        num_bytes,
-        base_addr_lo,
-        base_addr_hi,
+        bytes.num_bytes(),
+        bytes.phys_addr_lo(),
+        bytes.phys_addr_hi(),
     )
 }
 
@@ -65,13 +68,13 @@ pub unsafe fn console_write(num_bytes: usize, base_addr_lo: usize, base_addr_hi:
 /// | `SbiRet::failed()`        | Failed to read due to I/O errors.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 12.2.
-pub unsafe fn console_read(num_bytes: usize, base_addr_lo: usize, base_addr_hi: usize) -> SbiRet {
+pub fn console_read(bytes: Physical<&mut [u8]>) -> SbiRet {
     sbi_call_3(
         EID_DBCN,
         CONSOLE_READ,
-        num_bytes,
-        base_addr_lo,
-        base_addr_hi,
+        bytes.num_bytes(),
+        bytes.phys_addr_lo(),
+        bytes.phys_addr_hi(),
     )
 }
 
