@@ -23,8 +23,12 @@ mod pmu;
 // §12
 mod dbcn;
 
+// §14
+mod cppc;
+
 pub use base::*;
 pub use binary::*;
+pub use cppc::*;
 pub use dbcn::*;
 pub use hsm::*;
 pub use pmu::*;
