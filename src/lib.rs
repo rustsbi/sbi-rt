@@ -22,7 +22,8 @@ mod srst;
 mod pmu;
 // §12
 mod dbcn;
-
+// §13
+mod susp;
 // §14
 mod cppc;
 
@@ -35,4 +36,5 @@ pub use pmu::*;
 pub use rfnc::*;
 pub use spi::*;
 pub use srst::*;
+pub use susp::*;
 pub use time::*;
