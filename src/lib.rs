@@ -26,6 +26,8 @@ mod dbcn;
 mod susp;
 // §14
 mod cppc;
+// §16
+mod sta;
 
 pub use base::*;
 pub use binary::*;
@@ -36,5 +38,6 @@ pub use pmu::*;
 pub use rfnc::*;
 pub use spi::*;
 pub use srst::*;
+pub use sta::*;
 pub use susp::*;
 pub use time::*;
