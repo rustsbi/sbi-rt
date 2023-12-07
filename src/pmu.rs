@@ -3,8 +3,8 @@
 use crate::binary::{sbi_call_0, sbi_call_1, sbi_call_3, SbiRet};
 
 use sbi_spec::pmu::{
-    EID_PMU, PMU_COUNTER_CONFIG_MATCHING, PMU_COUNTER_FW_READ, PMU_COUNTER_FW_READ_HI,
-    PMU_COUNTER_GET_INFO, PMU_COUNTER_START, PMU_COUNTER_STOP, PMU_NUM_COUNTERS,
+    COUNTER_CONFIG_MATCHING, COUNTER_FW_READ, COUNTER_FW_READ_HI, COUNTER_GET_INFO, COUNTER_START,
+    COUNTER_STOP, EID_PMU, NUM_COUNTERS,
 };
 
 /// Returns the number of counters, both hardware and firmware.
@@ -14,7 +14,7 @@ use sbi_spec::pmu::{
 /// This function is defined in RISC-V SBI Specification chapter 11.5.
 #[inline]
 pub fn pmu_num_counters() -> usize {
-    sbi_call_0(EID_PMU, PMU_NUM_COUNTERS).value
+    sbi_call_0(EID_PMU, NUM_COUNTERS).value
 }
 
 /// Get details about the specified counter.
@@ -48,7 +48,7 @@ pub fn pmu_num_counters() -> usize {
 /// This function is defined in RISC-V SBI Specification chapter 11.6.
 #[inline]
 pub fn pmu_counter_get_info(counter_idx: usize) -> SbiRet {
-    sbi_call_1(EID_PMU, PMU_COUNTER_GET_INFO, counter_idx)
+    sbi_call_1(EID_PMU, COUNTER_GET_INFO, counter_idx)
 }
 
 /// Find and configure a counter from a set of counters.
@@ -116,7 +116,7 @@ where
         #[cfg(target_pointer_width = "32")]
         () => crate::binary::sbi_call_6(
             EID_PMU,
-            PMU_COUNTER_CONFIG_MATCHING,
+            COUNTER_CONFIG_MATCHING,
             counter_idx_base,
             counter_idx_mask,
             config_flags.raw(),
@@ -127,7 +127,7 @@ where
         #[cfg(target_pointer_width = "64")]
         () => crate::binary::sbi_call_5(
             EID_PMU,
-            PMU_COUNTER_CONFIG_MATCHING,
+            COUNTER_CONFIG_MATCHING,
             counter_idx_base,
             counter_idx_mask,
             config_flags.raw(),
@@ -179,7 +179,7 @@ where
         #[cfg(target_pointer_width = "32")]
         () => crate::binary::sbi_call_5(
             EID_PMU,
-            PMU_COUNTER_START,
+            COUNTER_START,
             counter_idx_base,
             counter_idx_mask,
             start_flags.raw(),
@@ -189,7 +189,7 @@ where
         #[cfg(target_pointer_width = "64")]
         () => crate::binary::sbi_call_4(
             EID_PMU,
-            PMU_COUNTER_START,
+            COUNTER_START,
             counter_idx_base,
             counter_idx_mask,
             start_flags.raw(),
@@ -232,7 +232,7 @@ where
 {
     sbi_call_3(
         EID_PMU,
-        PMU_COUNTER_STOP,
+        COUNTER_STOP,
         counter_idx_base,
         counter_idx_mask,
         stop_flags.raw(),
@@ -261,7 +261,7 @@ where
 /// This function is defined in RISC-V SBI Specification chapter 11.10.
 #[inline]
 pub fn pmu_counter_fw_read(counter_idx: usize) -> SbiRet {
-    sbi_call_1(EID_PMU, PMU_COUNTER_FW_READ, counter_idx)
+    sbi_call_1(EID_PMU, COUNTER_FW_READ, counter_idx)
 }
 
 /// Provide the upper 32 bits of the current firmware counter value.
@@ -280,7 +280,7 @@ pub fn pmu_counter_fw_read(counter_idx: usize) -> SbiRet {
 /// This function is defined in RISC-V SBI Specification chapter 11.11.
 #[inline]
 pub fn pmu_counter_fw_read_hi(counter_idx: usize) -> SbiRet {
-    sbi_call_1(EID_PMU, PMU_COUNTER_FW_READ_HI, counter_idx)
+    sbi_call_1(EID_PMU, COUNTER_FW_READ_HI, counter_idx)
 }
 
 /// Flags to configure performance counter

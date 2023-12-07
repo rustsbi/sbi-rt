@@ -222,6 +222,6 @@ macro_rules! define_suspend_type {
 }
 
 define_suspend_type! {
-    Retentive(sbi_spec::hsm::HART_SUSPEND_TYPE_RETENTIVE) /// Default retentive hart suspension
-    NonRetentive(sbi_spec::hsm::HART_SUSPEND_TYPE_NON_RETENTIVE) /// Default non-retentive hart suspension
+    Retentive(sbi_spec::hsm::suspend_type::RETENTIVE) /// Default retentive hart suspension
+    NonRetentive(sbi_spec::hsm::suspend_type::NON_RETENTIVE) /// Default non-retentive hart suspension
 }
