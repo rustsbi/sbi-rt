@@ -50,6 +50,8 @@ pub fn nacl_probe_feature(feature_id: usize) {
 /// | `SbiRet::invalid_address()` | The shared memory pointed to by the `shmem_phys_lo` and `shmem_phys_hi` parameters does not satisfy the requirements.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 15.6.
+///
+/// FIXME: Should be (shmem: SharedPtr<...>, flags: usize)
 #[inline]
 pub fn nacl_set_shmem(shmem_phys_lo: usize, shmem_phys_hi: usize, flags: usize) -> SbiRet {
     sbi_call_3(EID_NACL, SET_SHMEM, shmem_phys_lo, shmem_phys_hi, flags)

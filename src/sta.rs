@@ -51,6 +51,8 @@ use sbi_spec::sta::{EID_STA, SET_SHMEM};
 /// | `SbiRet::failed()`          | The request failed for unspecified or unknown other reasons.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 16.1.
+///
+/// FIXME: Should be (shmem: SharedPtr<...>, flags: usize)
 #[inline]
 pub fn sta_set_shmem(shmem_phys_lo: usize, shmem_phys_hi: usize, flags: usize) -> SbiRet {
     sbi_call_3(EID_STA, SET_SHMEM, shmem_phys_lo, shmem_phys_hi, flags)
