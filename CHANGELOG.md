@@ -7,18 +7,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Added
-
-- Support for SBI CPPC extension
-- Support for NACL and STA extensions
-
 ## [0.0.3]
 
+This version adds support to RISC-V SBI Specification version 2.0-rc7.
+
 ### Added
 
-- Support RISC-V SBI Specification version 2.0-rc1
 - Debug Console extension support
 - `pmu_counter_fw_read_hi` in PMU extension
+- Support for SBI CPPC extension
+- Support for NACL and STA extensions
 
 ### Fixed
 

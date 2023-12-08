@@ -40,9 +40,9 @@ where
     )
 }
 
-/// A valid type for system reset
+/// A valid type for system reset.
 pub trait ResetType {
-    /// Get a raw value to pass to SBI environment
+    /// Get a raw value to pass to SBI environment.
     fn raw(&self) -> u32;
 }
 

@@ -283,9 +283,9 @@ pub fn pmu_counter_fw_read_hi(counter_idx: usize) -> SbiRet {
     sbi_call_1(EID_PMU, COUNTER_FW_READ_HI, counter_idx)
 }
 
-/// Flags to configure performance counter
+/// Flags to configure performance counter.
 pub trait ConfigFlags {
-    /// Get a raw value to pass to SBI environment
+    /// Get a raw value to pass to SBI environment.
     fn raw(&self) -> usize;
 }
 
@@ -297,9 +297,9 @@ impl ConfigFlags for usize {
     }
 }
 
-/// Flags to start performance counter
+/// Flags to start performance counter.
 pub trait StartFlags {
-    /// Get a raw value to pass to SBI environment
+    /// Get a raw value to pass to SBI environment.
     fn raw(&self) -> usize;
 }
 
@@ -311,9 +311,9 @@ impl StartFlags for usize {
     }
 }
 
-/// Flags to stop performance counter
+/// Flags to stop performance counter.
 pub trait StopFlags {
-    /// Get a raw value to pass to SBI environment
+    /// Get a raw value to pass to SBI environment.
     fn raw(&self) -> usize;
 }
 

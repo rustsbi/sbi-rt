@@ -51,9 +51,9 @@ where
     )
 }
 
-/// A valid sleep type for system suspend
+/// A valid sleep type for system suspend.
 pub trait SleepType {
-    /// Get a raw value to pass to SBI environment
+    /// Get a raw value to pass to SBI environment.
     fn raw(&self) -> u32;
 }
 
@@ -73,7 +73,7 @@ impl SleepType for i32 {
     }
 }
 
-/// Suspend to RAM as sleep type
+/// Suspend to RAM as sleep type.
 #[derive(Clone, Copy, Debug)]
 pub struct SuspendToRam;
 
