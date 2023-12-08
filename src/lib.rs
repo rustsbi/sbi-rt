@@ -26,15 +26,21 @@ mod dbcn;
 mod susp;
 // §14
 mod cppc;
+// §15
+mod nacl;
+// §16
+mod sta;
 
 pub use base::*;
 pub use binary::*;
 pub use cppc::*;
 pub use dbcn::*;
 pub use hsm::*;
+pub use nacl::*;
 pub use pmu::*;
 pub use rfnc::*;
 pub use spi::*;
 pub use srst::*;
+pub use sta::*;
 pub use susp::*;
 pub use time::*;
