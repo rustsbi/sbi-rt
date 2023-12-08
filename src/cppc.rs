@@ -32,7 +32,7 @@ pub fn cppc_probe(cppc_reg_id: usize) -> SbiRet {
     sbi_call_1(EID_CPPC, PROBE, cppc_reg_id)
 }
 
-/// Read the CPPC register.
+/// Read the CPPC register identified by given `cppc_reg_id`.
 ///
 /// # Parameters
 ///
@@ -59,7 +59,7 @@ pub fn cppc_read(cppc_reg_id: usize) -> SbiRet {
     sbi_call_1(EID_CPPC, READ, cppc_reg_id)
 }
 
-/// Read the upper 32-bit value of the CPPC register.
+/// Read the upper 32-bit value of the CPPC register identified by `cppc_reg_id`.
 ///
 /// # Parameters
 ///
@@ -86,7 +86,7 @@ pub fn cppc_read_hi(cppc_reg_id: usize) -> SbiRet {
     sbi_call_1(EID_CPPC, READ_HI, cppc_reg_id)
 }
 
-/// Write the CPPC register.
+/// Write 64-bit value to the CPPC register identified by given `cppc_reg_id`.
 ///
 /// # Parameters
 ///
