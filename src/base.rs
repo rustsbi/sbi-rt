@@ -105,9 +105,9 @@ pub fn get_mimpid() -> usize {
     sbi_call_0(EID_BASE, GET_MIMPID).value
 }
 
-/// An SBI extension
+/// An SBI extension.
 pub trait Extension {
-    /// Get a raw `extension_id` value to pass to SBI environment
+    /// Get a raw `extension_id` value to pass to SBI environment.
     fn extension_id(&self) -> usize;
 }
 
@@ -128,14 +128,18 @@ macro_rules! define_extension {
 }
 
 define_extension! {
-    Base(sbi_spec::base::EID_BASE) /// RISC-V SBI Base extension
-    Timer(sbi_spec::time::EID_TIME) /// Timer programmer extension
-    Ipi(sbi_spec::spi::EID_SPI) /// Inter-processor Interrupt extension
-    Fence(sbi_spec::rfnc::EID_RFNC) /// Remote Fence extension
-    Hsm(sbi_spec::hsm::EID_HSM) /// Hart State Monitor extension
-    Reset(sbi_spec::srst::EID_SRST) /// System Reset extension
-    Pmu(sbi_spec::pmu::EID_PMU) /// Performance Monitoring Unit extension
-    Console(sbi_spec::dbcn::EID_DBCN) /// Debug Console extension
+    Base(sbi_spec::base::EID_BASE) /// RISC-V SBI Base extension.
+    Timer(sbi_spec::time::EID_TIME) /// Timer programmer extension.
+    Ipi(sbi_spec::spi::EID_SPI) /// Inter-processor Interrupt extension.
+    Fence(sbi_spec::rfnc::EID_RFNC) /// Remote Fence extension.
+    Hsm(sbi_spec::hsm::EID_HSM) /// Hart State Monitor extension.
+    Reset(sbi_spec::srst::EID_SRST) /// System Reset extension.
+    Pmu(sbi_spec::pmu::EID_PMU) /// Performance Monitoring Unit extension.
+    Console(sbi_spec::dbcn::EID_DBCN) /// Debug Console extension.
+    Suspend(sbi_spec::susp::SUSPEND) /// System Suspend extension.
+    Cppc(sbi_spec::cppc::EID_CPPC) /// SBI CPPC extension.
+    Nacl(sbi_spec::cppc::EID_CPPC) /// Nested Acceleration extension.
+    Sta(sbi_spec::cppc::EID_CPPC) /// Steal-time Accounting extension.
 }
 
 #[cfg(feature = "integer-impls")]
@@ -154,7 +158,7 @@ impl Extension for isize {
     }
 }
 
-/// Information about an SBI extension
+/// Information about an SBI extension.
 #[derive(Clone, Copy, Debug)]
 pub struct ExtensionInfo {
     pub raw: usize,

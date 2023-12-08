@@ -191,9 +191,9 @@ where
     )
 }
 
-/// A valid suspend type for hart state monitor
+/// A valid suspend type for hart state monitor.
 pub trait SuspendType {
-    /// Get a raw value to pass to SBI environment
+    /// Get a raw value to pass to SBI environment.
     fn raw(&self) -> u32;
 }
 
@@ -222,6 +222,6 @@ macro_rules! define_suspend_type {
 }
 
 define_suspend_type! {
-    Retentive(sbi_spec::hsm::suspend_type::RETENTIVE) /// Default retentive hart suspension
-    NonRetentive(sbi_spec::hsm::suspend_type::NON_RETENTIVE) /// Default non-retentive hart suspension
+    Retentive(sbi_spec::hsm::suspend_type::RETENTIVE) /// Default retentive hart suspension.
+    NonRetentive(sbi_spec::hsm::suspend_type::NON_RETENTIVE) /// Default non-retentive hart suspension.
 }

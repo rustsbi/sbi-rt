@@ -62,9 +62,9 @@ impl ResetType for i32 {
     }
 }
 
-/// A valid reason for system reset
+/// A valid reason for system reset.
 pub trait ResetReason {
-    /// Get a raw value to pass to SBI environment
+    /// Get a raw value to pass to SBI environment.
     fn raw(&self) -> u32;
 }
 
@@ -101,9 +101,9 @@ macro_rules! define_reset_param {
 }
 
 define_reset_param! {
-    Shutdown(RESET_TYPE_SHUTDOWN): ResetType /// Shutdown as reset type
-    ColdReboot(RESET_TYPE_COLD_REBOOT): ResetType /// Cold reboot as reset type
-    WarmReboot(RESET_TYPE_WARM_REBOOT): ResetType /// Warm reboot as reset type
-    NoReason(RESET_REASON_NO_REASON): ResetReason /// No reason as reset reason
-    SystemFailure(RESET_REASON_SYSTEM_FAILURE): ResetReason /// System failure as reset reason
+    Shutdown(RESET_TYPE_SHUTDOWN): ResetType /// Shutdown as reset type.
+    ColdReboot(RESET_TYPE_COLD_REBOOT): ResetType /// Cold reboot as reset type.
+    WarmReboot(RESET_TYPE_WARM_REBOOT): ResetType /// Warm reboot as reset type.
+    NoReason(RESET_REASON_NO_REASON): ResetReason /// No reason as reset reason.
+    SystemFailure(RESET_REASON_SYSTEM_FAILURE): ResetReason /// System failure as reset reason.
 }
