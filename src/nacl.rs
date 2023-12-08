@@ -2,7 +2,10 @@
 
 use crate::binary::{sbi_call_0, sbi_call_1, sbi_call_3, SbiRet};
 
-use sbi_spec::nacl::{EID_NACL, PROBE_FEATURE, SET_SHMEM, SYNC_CSR, SYNC_HFENCE, SYNC_SRET};
+use sbi_spec::{
+    binary::SharedPtr,
+    nacl::{shmem_size, EID_NACL, PROBE_FEATURE, SET_SHMEM, SYNC_CSR, SYNC_HFENCE, SYNC_SRET},
+};
 
 /// Probe a nested acceleration feature.
 ///
@@ -31,13 +34,12 @@ pub fn nacl_probe_feature(feature_id: usize) {
 ///
 /// # Parameters
 ///
-/// If both `shmem_phys_lo` and `shmem_phys_hi` parameters are not all-ones bitwise
-/// then `shmem_phys_lo` specifies the lower XLEN bits
-/// and `shmem_phys_hi` specifies the upper XLEN bits of the shared memory physical base address.
-/// `shmem_phys_lo` MUST be 4096 bytes (i.e. page) aligned and the size of the shared memory must be `4096 + (XLEN * 128)` bytes.
+/// If `shmem` parameter is not all-ones bitwise then `shmem` specifies the shared
+/// memory physical base address. `shmem` MUST be 4096 bytes (i.e. page) aligned and
+/// the size of the shared memory must be `4096 + (XLEN * 128)` bytes.
 ///
-/// If both `shmem_phys_lo` and `shmem_phys_hi` parameters are all-ones bitwise
-/// then the nested acceleration features are disabled.
+/// If `shmem` parameter is all-ones bitwise then the nested acceleration features
+/// are disabled.
 ///
 /// The `flags` parameter is reserved for future use and must be zero.
 ///
@@ -46,15 +48,19 @@ pub fn nacl_probe_feature(feature_id: usize) {
 /// | Error code                  | Description
 /// |:----------------------------|:---------------------------------
 /// | `SbiRet::success()`         | Shared memory was set or cleared successfully.
-/// | `SbiRet::invalid_param()`   | The `flags` parameter is not zero or or the `shmem_phys_lo` parameter is not 4096 bytes aligned.
-/// | `SbiRet::invalid_address()` | The shared memory pointed to by the `shmem_phys_lo` and `shmem_phys_hi` parameters does not satisfy the requirements.
+/// | `SbiRet::invalid_param()`   | The `flags` parameter is not zero or or the `shmem` parameter is not 4096 bytes aligned.
+/// | `SbiRet::invalid_address()` | The shared memory pointed to by the `shmem` parameters does not satisfy the requirements.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 15.6.
-///
-/// FIXME: Should be (shmem: SharedPtr<...>, flags: usize)
 #[inline]
-pub fn nacl_set_shmem(shmem_phys_lo: usize, shmem_phys_hi: usize, flags: usize) -> SbiRet {
-    sbi_call_3(EID_NACL, SET_SHMEM, shmem_phys_lo, shmem_phys_hi, flags)
+pub fn nacl_set_shmem(shmem: SharedPtr<[u8; shmem_size::NATIVE]>, flags: usize) -> SbiRet {
+    sbi_call_3(
+        EID_NACL,
+        SET_SHMEM,
+        shmem.phys_addr_lo(),
+        shmem.phys_addr_hi(),
+        flags,
+    )
 }
 
 /// Synchronize CSRs in the nested acceleration shared memory.
@@ -116,7 +122,7 @@ pub fn nacl_sync_hfence(entry_index: usize) {
     sbi_call_1(EID_NACL, SYNC_HFENCE, entry_index);
 }
 
-/// Synchronize CSRs and HFENCEs in the nested acceleration shared memory and emulate the SRET instruction.
+/// Synchronize CSRs and HFENCEs in the NACL shared memory and emulate the SRET instruction.
 ///
 /// This is an optional function which is only available if the SBI_NACL_FEAT_SYNC_SRET feature is available.
 ///

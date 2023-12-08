@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- Support for SBI CPPC extension
+- Support for NACL and STA extensions
+
 ## [0.0.3]
 
 ### Added

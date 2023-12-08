@@ -2,8 +2,13 @@
 
 use crate::binary::{sbi_call_3, SbiRet};
 
-use sbi_spec::sta::{EID_STA, SET_SHMEM};
+use sbi_spec::{
+    binary::SharedPtr,
+    sta::{EID_STA, SET_SHMEM},
+};
 
+/// Prepare shared memory for steal-time accounting feature.
+///
 /// Set the shared memory physical base address for steal-time accounting of the calling virtual hart and
 /// enable the SBI implementation’s steal-time information reporting.
 ///
@@ -28,14 +33,13 @@ use sbi_spec::sta::{EID_STA, SET_SHMEM};
 ///
 /// # Parameters
 ///
-/// If `shmem_phys_lo` and `shmem_phys_hi` are not all-ones bitwise,
-/// then `shmem_phys_lo` specifies the lower XLEN bits
-/// and `shmem_phys_hi` specifies the upper XLEN bits of the shared memory physical base address.
-/// `shmem_phys_lo` MUST be 64-byte aligned. The size of the shared memory must be at least 64 bytes.
-/// All bytes MUST be set to zero by the SBI implementation before returning from the SBI call.
+/// If `shmem` address is not all-ones bitwise, then `shmem` specifies the shared memory
+/// physical base address. `shmem` MUST be 64-byte aligned. The size of the shared memory
+/// must be 64 bytes. All bytes MUST be set to zero by the SBI implementation before returning
+/// from the SBI call.
 ///
-/// If `shmem_phys_lo` and `shmem_phys_hi` are all-ones bitwise,
-/// the SBI implementation will stop reporting steal-time information for the virtual hart.
+/// If `shmem` address is all-ones bitwise, the SBI implementation will stop reporting
+/// steal-time information for the virtual hart.
 ///
 /// The `flags` parameter is reserved for future use and MUST be zero.
 ///
@@ -51,9 +55,13 @@ use sbi_spec::sta::{EID_STA, SET_SHMEM};
 /// | `SbiRet::failed()`          | The request failed for unspecified or unknown other reasons.
 ///
 /// This function is defined in RISC-V SBI Specification chapter 16.1.
-///
-/// FIXME: Should be (shmem: SharedPtr<...>, flags: usize)
 #[inline]
-pub fn sta_set_shmem(shmem_phys_lo: usize, shmem_phys_hi: usize, flags: usize) -> SbiRet {
-    sbi_call_3(EID_STA, SET_SHMEM, shmem_phys_lo, shmem_phys_hi, flags)
+pub fn sta_set_shmem(shmem: SharedPtr<[u8; 64]>, flags: usize) -> SbiRet {
+    sbi_call_3(
+        EID_STA,
+        SET_SHMEM,
+        shmem.phys_addr_lo(),
+        shmem.phys_addr_hi(),
+        flags,
+    )
 }
