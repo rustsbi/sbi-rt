@@ -24,8 +24,8 @@ use sbi_spec::{
 ///
 /// This function is defined in RISC-V SBI Specification chapter 15.5.
 #[inline]
-pub fn nacl_probe_feature(feature_id: usize) {
-    sbi_call_1(EID_NACL, PROBE_FEATURE, feature_id);
+pub fn nacl_probe_feature(feature_id: u32) -> SbiRet {
+    sbi_call_1(EID_NACL, PROBE_FEATURE, feature_id as _)
 }
 
 /// Set and enable the shared memory for nested acceleration on the calling hart.
@@ -89,8 +89,8 @@ pub fn nacl_set_shmem(shmem: SharedPtr<[u8; shmem_size::NATIVE]>, flags: usize) 
 ///
 /// This function is defined in RISC-V SBI Specification chapter 15.7.
 #[inline]
-pub fn nacl_sync_csr(csr_num: usize) {
-    sbi_call_1(EID_NACL, SYNC_CSR, csr_num);
+pub fn nacl_sync_csr(csr_num: usize) -> SbiRet {
+    sbi_call_1(EID_NACL, SYNC_CSR, csr_num)
 }
 
 /// Synchronize HFENCEs in the nested acceleration shared memory.
@@ -118,8 +118,8 @@ pub fn nacl_sync_csr(csr_num: usize) {
 ///
 /// This function is defined in RISC-V SBI Specification chapter 15.8.
 #[inline]
-pub fn nacl_sync_hfence(entry_index: usize) {
-    sbi_call_1(EID_NACL, SYNC_HFENCE, entry_index);
+pub fn nacl_sync_hfence(entry_index: usize) -> SbiRet {
+    sbi_call_1(EID_NACL, SYNC_HFENCE, entry_index)
 }
 
 /// Synchronize CSRs and HFENCEs in the NACL shared memory and emulate the SRET instruction.
@@ -141,6 +141,6 @@ pub fn nacl_sync_hfence(entry_index: usize) {
 ///
 /// This function is defined in RISC-V SBI Specification chapter 15.9.
 #[inline]
-pub fn nacl_sync_sret() {
-    sbi_call_0(EID_NACL, SYNC_SRET);
+pub fn nacl_sync_sret() -> SbiRet {
+    sbi_call_0(EID_NACL, SYNC_SRET)
 }
