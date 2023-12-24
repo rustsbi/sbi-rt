@@ -2,7 +2,10 @@
 
 use crate::binary::{sbi_call_2, SbiRet};
 
-use sbi_spec::spi::{EID_SPI, SEND_IPI};
+use sbi_spec::{
+    binary::HartMask,
+    spi::{EID_SPI, SEND_IPI},
+};
 
 /// Send an inter-processor interrupt to all harts defined in hart mask.
 ///
@@ -14,6 +17,7 @@ use sbi_spec::spi::{EID_SPI, SEND_IPI};
 ///
 /// This function is defined in RISC-V SBI Specification chapter 7.1.
 #[inline]
-pub fn send_ipi(hart_mask: usize, hart_mask_base: usize) -> SbiRet {
+pub fn send_ipi(hart_mask: HartMask) -> SbiRet {
+    let (hart_mask, hart_mask_base) = hart_mask.into_inner();
     sbi_call_2(EID_SPI, SEND_IPI, hart_mask, hart_mask_base)
 }

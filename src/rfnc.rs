@@ -2,9 +2,12 @@
 
 use crate::binary::{sbi_call_2, sbi_call_4, sbi_call_5, SbiRet};
 
-use sbi_spec::rfnc::{
-    EID_RFNC, REMOTE_FENCE_I, REMOTE_HFENCE_GVMA, REMOTE_HFENCE_GVMA_VMID, REMOTE_HFENCE_VVMA,
-    REMOTE_HFENCE_VVMA_ASID, REMOTE_SFENCE_VMA, REMOTE_SFENCE_VMA_ASID,
+use sbi_spec::{
+    binary::HartMask,
+    rfnc::{
+        EID_RFNC, REMOTE_FENCE_I, REMOTE_HFENCE_GVMA, REMOTE_HFENCE_GVMA_VMID, REMOTE_HFENCE_VVMA,
+        REMOTE_HFENCE_VVMA_ASID, REMOTE_SFENCE_VMA, REMOTE_SFENCE_VMA_ASID,
+    },
 };
 
 /// Execute `FENCE.I` instruction on remote harts.
@@ -15,7 +18,8 @@ use sbi_spec::rfnc::{
 ///
 /// This function is defined in RISC-V SBI Specification chapter 8.1.
 #[inline]
-pub fn remote_fence_i(hart_mask: usize, hart_mask_base: usize) -> SbiRet {
+pub fn remote_fence_i(hart_mask: HartMask) -> SbiRet {
+    let (hart_mask, hart_mask_base) = hart_mask.into_inner();
     sbi_call_2(EID_RFNC, REMOTE_FENCE_I, hart_mask, hart_mask_base)
 }
 
@@ -35,12 +39,8 @@ pub fn remote_fence_i(hart_mask: usize, hart_mask_base: usize) -> SbiRet {
 ///
 /// This function is defined in RISC-V SBI Specification chapter 8.2.
 #[inline]
-pub fn remote_sfence_vma(
-    hart_mask: usize,
-    hart_mask_base: usize,
-    start_addr: usize,
-    size: usize,
-) -> SbiRet {
+pub fn remote_sfence_vma(hart_mask: HartMask, start_addr: usize, size: usize) -> SbiRet {
+    let (hart_mask, hart_mask_base) = hart_mask.into_inner();
     sbi_call_4(
         EID_RFNC,
         REMOTE_SFENCE_VMA,
@@ -69,12 +69,12 @@ pub fn remote_sfence_vma(
 /// This function is defined in RISC-V SBI Specification chapter 8.3.
 #[inline]
 pub fn remote_sfence_vma_asid(
-    hart_mask: usize,
-    hart_mask_base: usize,
+    hart_mask: HartMask,
     start_addr: usize,
     size: usize,
     asid: usize,
 ) -> SbiRet {
+    let (hart_mask, hart_mask_base) = hart_mask.into_inner();
     sbi_call_5(
         EID_RFNC,
         REMOTE_SFENCE_VMA_ASID,
@@ -107,12 +107,12 @@ pub fn remote_sfence_vma_asid(
 /// This function is defined in RISC-V SBI Specification chapter 8.4.
 #[inline]
 pub fn remote_hfence_gvma_vmid(
-    hart_mask: usize,
-    hart_mask_base: usize,
+    hart_mask: HartMask,
     start_addr: usize,
     size: usize,
     vmid: usize,
 ) -> SbiRet {
+    let (hart_mask, hart_mask_base) = hart_mask.into_inner();
     sbi_call_5(
         EID_RFNC,
         REMOTE_HFENCE_GVMA_VMID,
@@ -144,12 +144,8 @@ pub fn remote_hfence_gvma_vmid(
 ///
 /// This function is defined in RISC-V SBI Specification chapter 8.5.
 #[inline]
-pub fn remote_hfence_gvma(
-    hart_mask: usize,
-    hart_mask_base: usize,
-    start_addr: usize,
-    size: usize,
-) -> SbiRet {
+pub fn remote_hfence_gvma(hart_mask: HartMask, start_addr: usize, size: usize) -> SbiRet {
+    let (hart_mask, hart_mask_base) = hart_mask.into_inner();
     sbi_call_4(
         EID_RFNC,
         REMOTE_HFENCE_GVMA,
@@ -182,12 +178,12 @@ pub fn remote_hfence_gvma(
 /// This function is defined in RISC-V SBI Specification chapter 8.6.
 #[inline]
 pub fn remote_hfence_vvma_asid(
-    hart_mask: usize,
-    hart_mask_base: usize,
+    hart_mask: HartMask,
     start_addr: usize,
     size: usize,
     asid: usize,
 ) -> SbiRet {
+    let (hart_mask, hart_mask_base) = hart_mask.into_inner();
     sbi_call_5(
         EID_RFNC,
         REMOTE_HFENCE_VVMA_ASID,
@@ -219,12 +215,8 @@ pub fn remote_hfence_vvma_asid(
 ///
 /// This function is defined in RISC-V SBI Specification chapter 8.7.
 #[inline]
-pub fn remote_hfence_vvma(
-    hart_mask: usize,
-    hart_mask_base: usize,
-    start_addr: usize,
-    size: usize,
-) -> SbiRet {
+pub fn remote_hfence_vvma(hart_mask: HartMask, start_addr: usize, size: usize) -> SbiRet {
+    let (hart_mask, hart_mask_base) = hart_mask.into_inner();
     sbi_call_4(
         EID_RFNC,
         REMOTE_HFENCE_VVMA,

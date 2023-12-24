@@ -18,6 +18,10 @@ This version adds support to RISC-V SBI Specification version 2.0-rc7.
 - Support for SBI CPPC extension
 - Support for NACL and STA extensions
 
+### Modified
+
+- SPI and RFNC extensions now use `HartMask` parameter
+
 ### Fixed
 
 - Minor document fixes on `ConfigFlags` and `set_timer`
