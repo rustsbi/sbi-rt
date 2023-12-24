@@ -28,8 +28,8 @@ use sbi_spec::cppc::{EID_CPPC, PROBE, READ, READ_HI, WRITE};
 ///
 /// This function is defined in RISC-V SBI Specification chapter 14.1.
 #[inline]
-pub fn cppc_probe(cppc_reg_id: usize) -> SbiRet {
-    sbi_call_1(EID_CPPC, PROBE, cppc_reg_id)
+pub fn cppc_probe(cppc_reg_id: u32) -> SbiRet {
+    sbi_call_1(EID_CPPC, PROBE, cppc_reg_id as _)
 }
 
 /// Read the CPPC register identified by given `cppc_reg_id`.
@@ -55,8 +55,8 @@ pub fn cppc_probe(cppc_reg_id: usize) -> SbiRet {
 ///
 /// This function is defined in RISC-V SBI Specification chapter 14.2.
 #[inline]
-pub fn cppc_read(cppc_reg_id: usize) -> SbiRet {
-    sbi_call_1(EID_CPPC, READ, cppc_reg_id)
+pub fn cppc_read(cppc_reg_id: u32) -> SbiRet {
+    sbi_call_1(EID_CPPC, READ, cppc_reg_id as _)
 }
 
 /// Read the upper 32-bit value of the CPPC register identified by `cppc_reg_id`.
@@ -82,8 +82,8 @@ pub fn cppc_read(cppc_reg_id: usize) -> SbiRet {
 ///
 /// This function is defined in RISC-V SBI Specification chapter 14.3.
 #[inline]
-pub fn cppc_read_hi(cppc_reg_id: usize) -> SbiRet {
-    sbi_call_1(EID_CPPC, READ_HI, cppc_reg_id)
+pub fn cppc_read_hi(cppc_reg_id: u32) -> SbiRet {
+    sbi_call_1(EID_CPPC, READ_HI, cppc_reg_id as _)
 }
 
 /// Write 64-bit value to the CPPC register identified by given `cppc_reg_id`.
@@ -108,11 +108,17 @@ pub fn cppc_read_hi(cppc_reg_id: usize) -> SbiRet {
 ///
 /// This function is defined in RISC-V SBI Specification chapter 14.4.
 #[inline]
-pub fn cppc_write(cppc_reg_id: usize, value: u64) -> SbiRet {
+pub fn cppc_write(cppc_reg_id: u32, value: u64) -> SbiRet {
     match () {
         #[cfg(target_pointer_width = "32")]
-        () => sbi_call_3(EID_CPPC, WRITE, cppc_reg_id, value as _, (value >> 32) as _),
+        () => sbi_call_3(
+            EID_CPPC,
+            WRITE,
+            cppc_reg_id as _,
+            value as _,
+            (value >> 32) as _,
+        ),
         #[cfg(target_pointer_width = "64")]
-        () => sbi_call_2(EID_CPPC, WRITE, cppc_reg_id, value as _),
+        () => sbi_call_2(EID_CPPC, WRITE, cppc_reg_id as _, value as _),
     }
 }
