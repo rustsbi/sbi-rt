@@ -89,49 +89,68 @@ pub fn shutdown() -> ! {
 
 #[inline(always)]
 fn sbi_call_legacy_0(eid: usize) -> usize {
-    let error;
+    #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))]
     unsafe {
+        let error;
         core::arch::asm!(
             "ecall",
             in("a7") eid,
             lateout("a0") error,
         );
+        error
     }
-    error
+    #[cfg(not(any(target_arch = "riscv32", target_arch = "riscv64")))]
+    {
+        let _ = eid;
+        unimplemented!("not RISC-V instruction set architecture")
+    }
 }
 
 #[inline(always)]
 fn sbi_call_legacy_1(eid: usize, arg0: usize) -> usize {
-    let error;
+    #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))]
     unsafe {
+        let error;
         core::arch::asm!(
             "ecall",
             in("a7") eid,
             inlateout("a0") arg0 => error,
         );
+        error
     }
-    error
+    #[cfg(not(any(target_arch = "riscv32", target_arch = "riscv64")))]
+    {
+        let _ = (eid, arg0);
+        unimplemented!("not RISC-V instruction set architecture")
+    }
 }
 
 #[cfg(target_pointer_width = "32")]
 #[inline(always)]
 fn sbi_call_legacy_2(eid: usize, arg0: usize, arg1: usize) -> usize {
-    let error;
+    #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))]
     unsafe {
+        let error;
         core::arch::asm!(
             "ecall",
             in("a7") eid,
             inlateout("a0") arg0 => error,
             in("a1") arg1,
         );
+        error
     }
-    error
+    #[cfg(not(any(target_arch = "riscv32", target_arch = "riscv64")))]
+    {
+        let _ = (eid, arg0, arg1);
+        unimplemented!("not RISC-V instruction set architecture")
+    }
 }
 
 #[inline(always)]
 fn sbi_call_legacy_3(eid: usize, arg0: usize, arg1: usize, arg2: usize) -> usize {
-    let error;
+    #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))]
     unsafe {
+        let error;
         core::arch::asm!(
             "ecall",
             in("a7") eid,
@@ -139,14 +158,20 @@ fn sbi_call_legacy_3(eid: usize, arg0: usize, arg1: usize, arg2: usize) -> usize
             in("a1") arg1,
             in("a2") arg2,
         );
+        error
     }
-    error
+    #[cfg(not(any(target_arch = "riscv32", target_arch = "riscv64")))]
+    {
+        let _ = (eid, arg0, arg1, arg2);
+        unimplemented!("not RISC-V instruction set architecture")
+    }
 }
 
 #[inline(always)]
 fn sbi_call_legacy_4(eid: usize, arg0: usize, arg1: usize, arg2: usize, arg3: usize) -> usize {
-    let error;
+    #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))]
     unsafe {
+        let error;
         core::arch::asm!(
             "ecall",
             in("a7") eid,
@@ -155,6 +180,11 @@ fn sbi_call_legacy_4(eid: usize, arg0: usize, arg1: usize, arg2: usize, arg3: us
             in("a2") arg2,
             in("a3") arg3,
         );
+        error
     }
-    error
+    #[cfg(not(any(target_arch = "riscv32", target_arch = "riscv64")))]
+    {
+        let _ = (eid, arg0, arg1, arg2, arg3);
+        unimplemented!("not RISC-V instruction set architecture")
+    }
 }
