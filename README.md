@@ -1,4 +1,8 @@
-﻿# sbi-rt
+# Repository archived
+
+This crate has been moved to repository [rustsbi/rustsbi](https://github.com/rustsbi/rustsbi). Please direct issues and pull requests to the new repository.
+
+# sbi-rt
 
 [![crates.io](https://img.shields.io/crates/v/sbi-rt.svg)](https://crates.io/crates/sbi-rt)
 [![Documentation](https://docs.rs/sbi-rt/badge.svg)](https://docs.rs/sbi-rt)
